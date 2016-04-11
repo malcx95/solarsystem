@@ -8,7 +8,9 @@ document.body.appendChild(renderer.domElement);
 
 function createSun() {
 	var geometry = new THREE.SphereGeometry(50, 25, 25);
-	var material = new THREE.MeshBasicMaterial( {color: 0xffdc17} );
+	var material = new THREE.MeshPhongMaterial( 
+			{ map: THREE.ImageUtils.loadTexture('images/sun.jpg')} );
+	//var material = new THREE.MeshBasicMaterial( {color: 0xffdc17} );
 	var sun = new THREE.Mesh(geometry, material);
 	scene.add(sun);
 	return sun;
@@ -28,6 +30,14 @@ function animate(it, radius, freq, planet) {
 	planet.position.set(radius * Math.sin(it/freq), 15 * (Math.sin(it) + 1), radius * Math.cos(it/(freq * 2)));
 }
 
+function animateCamera(it) {
+	RADIUS = 500;
+	FREQUENCY = 300;
+	camera.position.set(0, RADIUS * Math.sin(it/FREQUENCY), RADIUS * Math.cos(it/FREQUENCY));
+	camera.lookAt(scene.position);
+	camera.rotation.z = 0;
+}
+
 var sun = createSun();
 var earth = createPlanet(10, 0x115ad9);
 var venus = createPlanet(10, 0xbf9517);
@@ -44,6 +54,10 @@ scene.add(light);
 var light2 = new THREE.AmbientLight( 0x333333 );
 scene.add(light2);
 
+//var light3 = new THREE.PointLight( 0x404040, 100, 1500, 8);
+//light3.position.set(0,200,100);
+//scene.add(light3);
+
 camera.position.set(0,100,500);
 camera.rotation.set(-0.1,0,0);
 
@@ -54,6 +68,7 @@ function render() {
 	animate(it, 250, 100, earth);
 	animate(it, 180, 80, venus);
 	animate(it, 500, 130, jupiter);
+	animateCamera(it, camera);
 	moon.position.set(250 * Math.sin(it/100) + 15 * Math.sin(it/20), 0,
 			250 * Math.cos(it/100) + 15 * Math.cos(it/20));
 	phobos.position.set(300 * Math.sin(it/120) + 13 * Math.sin(it/20), 8 * Math.sin(it/20),
