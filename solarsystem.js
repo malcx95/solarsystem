@@ -8,9 +8,7 @@ document.body.appendChild(renderer.domElement);
 
 function createSun() {
 	var geometry = new THREE.SphereGeometry(50, 25, 25);
-	var material = new THREE.MeshPhongMaterial( 
-			{ map: THREE.ImageUtils.loadTexture('images/sun.jpg')} );
-	//var material = new THREE.MeshBasicMaterial( {color: 0xffdc17} );
+	var material = new THREE.MeshBasicMaterial( {color: 0xffdc17} );
 	var sun = new THREE.Mesh(geometry, material);
 	scene.add(sun);
 	return sun;
